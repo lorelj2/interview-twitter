@@ -2,6 +2,7 @@ package com.javalanguagezone.interviewtwitter.service;
 
 import static java.util.stream.Collectors.toList;
 
+import com.javalanguagezone.interviewtwitter.controller.dto.UserRegistrationDTO;
 import com.javalanguagezone.interviewtwitter.domain.User;
 import com.javalanguagezone.interviewtwitter.repository.TweetRepository;
 import com.javalanguagezone.interviewtwitter.repository.UserRepository;
@@ -62,6 +63,22 @@ public class UserService implements UserDetailsService {
     return new UserProfileDTO(user, followers, following, postCount);
   }
 
+  @Transactional
+  public void registerUser(UserRegistrationDTO userRegistrationDTO) {
+
+    User newUser = new User(userRegistrationDTO.getUsername(), userRegistrationDTO.getPassword());
+    if (!newUser.isValid()) {
+      throw new InvalidUserException("Username or password invalid");
+    }
+
+    User existingUser = userRepository.findOneByUsername(userRegistrationDTO.getUsername());
+    if (existingUser != null) {
+      throw new UserAlreadyRegisteredException(existingUser.getUsername());
+    }
+
+    userRepository.save(newUser);
+  }
+
   User getUserByName(String username) {
     User user = userRepository.findOneByUsername(username);
     if (user != null) {
@@ -84,4 +101,23 @@ public class UserService implements UserDetailsService {
       this.username = username;
     }
   }
+
+  public static class UserAlreadyRegisteredException extends RuntimeException {
+
+    @Getter
+    private String username;
+
+    private UserAlreadyRegisteredException(String username) {
+      super(username);
+      this.username = username;
+    }
+  }
+
+  public static class InvalidUserException extends RuntimeException {
+
+    private InvalidUserException(String message) {
+      super(message);
+    }
+  }
+
 }
