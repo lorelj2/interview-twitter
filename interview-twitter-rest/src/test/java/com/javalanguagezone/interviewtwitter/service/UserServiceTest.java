@@ -38,8 +38,8 @@ public class UserServiceTest {
     UserProfileDTO userProfile = userService.getUserProfile("satoshiNakamoto");
 
     assertThat(userProfile, notNullValue());
-    assertThat(userProfile.getFollowersCount(), is(1L));
-    assertThat(userProfile.getFollowingCount(), is(1L));
+    assertThat(userProfile.getFollowersCount(), is(4L));
+    assertThat(userProfile.getFollowingCount(), is(0L));
     assertThat(userProfile.getPostCount(), is(2L));
   }
 

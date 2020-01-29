@@ -53,8 +53,8 @@ public class UserControllerIntegrationTest extends RestIntegrationTest {
 
     UserProfileDTO userProfile = response.getBody();
     assertThat(userProfile, notNullValue());
-    assertThat(userProfile.getFollowersCount(), is(1L));
-    assertThat(userProfile.getFollowingCount(), is(1L));
+    assertThat(userProfile.getFollowersCount(), is(4L));
+    assertThat(userProfile.getFollowingCount(), is(0L));
     assertThat(userProfile.getPostCount(), is(2L));
   }
 

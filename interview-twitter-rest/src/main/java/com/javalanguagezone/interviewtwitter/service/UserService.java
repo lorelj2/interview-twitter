@@ -56,8 +56,8 @@ public class UserService implements UserDetailsService {
   public UserProfileDTO getUserProfile(String username) {
     User user = getUserByName(username);
 
-    long followers = userRepository.countFollowersByUsername(username);
-    long following = userRepository.countFollowingsByUsername(username);
+    long followers = user.getFollowers().size();
+    long following = user.getFollowing().size();
     long postCount = tweetRepository.countByAuthor(user);
 
     return new UserProfileDTO(user, followers, following, postCount);
