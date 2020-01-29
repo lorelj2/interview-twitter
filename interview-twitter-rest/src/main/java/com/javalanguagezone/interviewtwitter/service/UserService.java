@@ -73,7 +73,7 @@ public class UserService implements UserDetailsService {
 
     User existingUser = userRepository.findOneByUsername(userRegistrationDTO.getUsername());
     if (existingUser != null) {
-      throw new UserExistsException(existingUser.getUsername());
+      throw new UserAlreadyRegisteredException(existingUser.getUsername());
     }
 
     userRepository.save(newUser);
@@ -102,12 +102,12 @@ public class UserService implements UserDetailsService {
     }
   }
 
-  public static class UserExistsException extends RuntimeException {
+  public static class UserAlreadyRegisteredException extends RuntimeException {
 
     @Getter
     private String username;
 
-    private UserExistsException(String username) {
+    private UserAlreadyRegisteredException(String username) {
       super(username);
       this.username = username;
     }

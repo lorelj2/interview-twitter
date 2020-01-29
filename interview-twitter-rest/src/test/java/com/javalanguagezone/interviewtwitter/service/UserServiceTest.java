@@ -9,7 +9,7 @@ import com.javalanguagezone.interviewtwitter.domain.User;
 import com.javalanguagezone.interviewtwitter.repository.UserRepository;
 import com.javalanguagezone.interviewtwitter.service.UserService.InvalidUserException;
 import com.javalanguagezone.interviewtwitter.service.UserService.UnknownUsernameException;
-import com.javalanguagezone.interviewtwitter.service.UserService.UserExistsException;
+import com.javalanguagezone.interviewtwitter.service.UserService.UserAlreadyRegisteredException;
 import com.javalanguagezone.interviewtwitter.service.dto.UserProfileDTO;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -62,7 +62,7 @@ public class UserServiceTest {
     assertThat(test.getPassword(), is(registrationDTO.getPassword()));
   }
 
-  @Test(expected = UserExistsException.class)
+  @Test(expected = UserAlreadyRegisteredException.class)
   public void registeringUserThatExists_UsernameExistsExceptionThrown() {
     UserRegistrationDTO registrationDTO = new UserRegistrationDTO();
     registrationDTO.setUsername("satoshiNakamoto");

@@ -2,14 +2,17 @@ package com.javalanguagezone.interviewtwitter.controller;
 
 import static java.util.stream.Collectors.toList;
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.isEmptyString;
 import static org.junit.Assert.assertThat;
 
 import com.javalanguagezone.interviewtwitter.controller.dto.ErrorMessage;
+import com.javalanguagezone.interviewtwitter.controller.dto.UserRegistrationDTO;
 import com.javalanguagezone.interviewtwitter.service.dto.UserDTO;
 import com.javalanguagezone.interviewtwitter.service.dto.UserProfileDTO;
 import java.util.Arrays;
@@ -67,6 +70,49 @@ public class UserControllerIntegrationTest extends RestIntegrationTest {
   }
 
 
+  @Test
+  public void registerUserRequest_200OkReturned() {
+    UserRegistrationDTO userRegistrationDTO = new UserRegistrationDTO();
+    userRegistrationDTO.setUsername("mmaric");
+    userRegistrationDTO.setPassword("password");
+
+    ResponseEntity<String> response = withAuthTestRestTemplate()
+      .postForEntity("/register", userRegistrationDTO, String.class);
+
+    assertThat(response.getStatusCode(), is(HttpStatus.CREATED));
+  }
+
+  @Test
+  public void registerUserRequestWithInvalidData_400Returned() {
+
+    UserRegistrationDTO userRegistrationDTO = new UserRegistrationDTO();
+    userRegistrationDTO.setUsername("satoshiNakamoto");
+    userRegistrationDTO.setPassword("password");
+
+    ResponseEntity<ErrorMessage> response = withAuthTestRestTemplate()
+      .postForEntity("/register", userRegistrationDTO, ErrorMessage.class);
+
+    assertThat(response.getStatusCode(), is(HttpStatus.CONFLICT));
+    ErrorMessage body = response.getBody();
+
+    assertThat(body.getMessage(), not(isEmptyString()));
+  }
+
+  @Test
+  public void registerUserRequestWithAlreadyRegisteredUsername_409Returned() {
+
+    UserRegistrationDTO userRegistrationDTO = new UserRegistrationDTO();
+    userRegistrationDTO.setUsername("");
+    userRegistrationDTO.setPassword("");
+
+    ResponseEntity<ErrorMessage> response = withAuthTestRestTemplate()
+      .postForEntity("/register", userRegistrationDTO, ErrorMessage.class);
+
+    ErrorMessage body = response.getBody();
+
+    assertThat(response.getStatusCode(), is(HttpStatus.BAD_REQUEST));
+    assertThat(body.getMessage(), not(isEmptyString()));
+  }
 
   private List<String> extractUsernames(List<UserDTO> users) {
     return users.stream().map(UserDTO::getUsername).collect(toList());
