@@ -9,7 +9,8 @@
   <tbody>
   <tr *ngFor="let tweet of tweets">
     <td>{{tweet.id}}</td>
-    <td><a routerLink="/app/tweets/{{tweet.author}}">{{tweet.author}}</a></td>
+    <td><a routerLink="/app/tweets/{{tweet.author}}">{{tweet.authorFullName}} ({{tweet.author}})</a>
+    </td>
     <td>{{tweet.content}}</td>
   </tr>
   </tbody>
