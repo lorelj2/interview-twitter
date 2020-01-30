@@ -74,6 +74,7 @@ public class UserControllerIntegrationTest extends RestIntegrationTest {
   public void registerUserRequest_200OkReturned() {
     UserRegistrationDTO userRegistrationDTO = new UserRegistrationDTO();
     userRegistrationDTO.setUsername("mmaric");
+    userRegistrationDTO.setFullName("Marko Maric");
     userRegistrationDTO.setPassword("password");
 
     ResponseEntity<String> response = withAuthTestRestTemplate()
@@ -83,10 +84,11 @@ public class UserControllerIntegrationTest extends RestIntegrationTest {
   }
 
   @Test
-  public void registerUserRequestWithInvalidData_400Returned() {
+  public void registerUserRequestWithAlreadyRegisteredUsername_409Returned() {
 
     UserRegistrationDTO userRegistrationDTO = new UserRegistrationDTO();
     userRegistrationDTO.setUsername("satoshiNakamoto");
+    userRegistrationDTO.setFullName("Satoshi Nakamoto");
     userRegistrationDTO.setPassword("password");
 
     ResponseEntity<ErrorMessage> response = withAuthTestRestTemplate()
@@ -99,7 +101,7 @@ public class UserControllerIntegrationTest extends RestIntegrationTest {
   }
 
   @Test
-  public void registerUserRequestWithAlreadyRegisteredUsername_409Returned() {
+  public void registerUserRequestWithInvalidData_400Returned() {
 
     UserRegistrationDTO userRegistrationDTO = new UserRegistrationDTO();
     userRegistrationDTO.setUsername("");

@@ -17,5 +17,9 @@ public class UserRegistrationDTO {
   @Size(min = 1, max = 255)
   private String password;
 
+  @NotBlank
+  @Size(min = 1, max = 255)
+  private String fullName;
+
 
 }

@@ -38,6 +38,7 @@ public class UserServiceTest {
     UserProfileDTO userProfile = userService.getUserProfile("satoshiNakamoto");
 
     assertThat(userProfile, notNullValue());
+
     assertThat(userProfile.getFollowersCount(), is(4L));
     assertThat(userProfile.getFollowingCount(), is(0L));
     assertThat(userProfile.getPostCount(), is(2L));
@@ -53,6 +54,7 @@ public class UserServiceTest {
   public void registeringUser_UserCreated() {
     UserRegistrationDTO registrationDTO = new UserRegistrationDTO();
     registrationDTO.setUsername("test");
+    registrationDTO.setFullName("Test Test");
     registrationDTO.setPassword("password");
     userService.registerUser(registrationDTO);
 
@@ -66,6 +68,7 @@ public class UserServiceTest {
   public void registeringUserThatExists_UsernameExistsExceptionThrown() {
     UserRegistrationDTO registrationDTO = new UserRegistrationDTO();
     registrationDTO.setUsername("satoshiNakamoto");
+    registrationDTO.setFullName("Satoshi Nakamoto");
     registrationDTO.setPassword("password");
     userService.registerUser(registrationDTO);
   }

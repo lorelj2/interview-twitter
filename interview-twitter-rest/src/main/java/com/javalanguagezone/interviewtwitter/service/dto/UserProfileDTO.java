@@ -12,6 +12,7 @@ public class UserProfileDTO {
 
   private Long id;
   private String username;
+  private String fullName;
   private long followersCount;
   private long followingCount;
   private long postCount;
@@ -19,6 +20,7 @@ public class UserProfileDTO {
   public UserProfileDTO(User user, long followersCount, long followingCount, long postCount) {
     this.id = user.getId();
     this.username = user.getUsername();
+    this.fullName = user.getFullName();
     this.followersCount = followersCount;
     this.followingCount = followingCount;
     this.postCount = postCount;

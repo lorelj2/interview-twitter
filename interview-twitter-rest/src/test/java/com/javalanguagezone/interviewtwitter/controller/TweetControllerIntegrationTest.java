@@ -1,25 +1,28 @@
 package com.javalanguagezone.interviewtwitter.controller;
 
-import com.javalanguagezone.interviewtwitter.controller.dto.ErrorMessage;
-import com.javalanguagezone.interviewtwitter.domain.Tweet;
-import com.javalanguagezone.interviewtwitter.repository.TweetRepository;
-import com.javalanguagezone.interviewtwitter.service.dto.TweetDTO;
-import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.stream.IntStream;
-
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.notNullValue;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.contains;
+import static org.hamcrest.Matchers.containsInAnyOrder;
+import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
+
+import com.javalanguagezone.interviewtwitter.controller.dto.ErrorMessage;
+import com.javalanguagezone.interviewtwitter.domain.Tweet;
+import com.javalanguagezone.interviewtwitter.repository.TweetRepository;
+import com.javalanguagezone.interviewtwitter.service.dto.TweetDTO;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.IntStream;
+import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
 public class TweetControllerIntegrationTest extends RestIntegrationTest {
 
@@ -46,6 +49,7 @@ public class TweetControllerIntegrationTest extends RestIntegrationTest {
     assertThat(fromDb, notNullValue());
     assertThat(fromDb.getContent(), equalTo(tweet.getContent()));
     assertThat(fromDb.getAuthor().getUsername(), equalTo(tweet.getAuthor()));
+    assertThat(fromDb.getAuthor().getFullName(), equalTo(tweet.getAuthorFullName()));
   }
 
   @Test

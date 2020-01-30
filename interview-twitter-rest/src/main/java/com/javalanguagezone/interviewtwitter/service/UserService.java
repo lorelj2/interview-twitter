@@ -66,7 +66,8 @@ public class UserService implements UserDetailsService {
   @Transactional
   public void registerUser(UserRegistrationDTO userRegistrationDTO) {
 
-    User newUser = new User(userRegistrationDTO.getUsername(), userRegistrationDTO.getPassword());
+    User newUser = new User(userRegistrationDTO.getUsername(), userRegistrationDTO.getFullName(),
+      userRegistrationDTO.getPassword());
     if (!newUser.isValid()) {
       throw new InvalidUserException("Username or password invalid");
     }

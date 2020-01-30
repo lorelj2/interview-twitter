@@ -42,6 +42,8 @@ public class User implements UserDetails {
   @Column(unique = true)
   private String username;
 
+  private String fullName;
+
   @JsonIgnore
   @ManyToMany
   private Set<User> following = new HashSet<>();
@@ -53,8 +55,9 @@ public class User implements UserDetails {
   @JsonIgnore
   private String password;
 
-  public User(String username, String password) {
+  public User(String username, String fullName, String password) {
     this.username = username;
+    this.fullName = fullName;
     this.password = password;
   }
 
@@ -90,6 +93,7 @@ public class User implements UserDetails {
 
   public boolean isValid() {
     return username != null && username.length() <= 255 && username.length() > 0 && password != null
-      && password.length() <= 255 && password.length() > 0;
+      && password.length() <= 255 && password.length() > 0 && fullName != null
+      && fullName.length() <= 255 && fullName.length() > 0;
   }
 }
